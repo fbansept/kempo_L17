@@ -64,7 +64,8 @@
 			</activation>
 			<properties>
 				<adresse-bdd>localhost:3306</adresse-bdd>
-				<nom-bdd>kempo_L17</nom-bdd>
+				<nom-bdd>kempo_L17_backend</nom-bdd>
+				<password-bdd></password-bdd>
 			</properties>
 		</profile>
 
