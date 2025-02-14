@@ -2,6 +2,9 @@ package edu.fbansept.kempo.controller;
 
 import edu.fbansept.kempo.dao.UtilisateurDao;
 import edu.fbansept.kempo.model.Utilisateur;
+import edu.fbansept.kempo.security.IsAdmin;
+import edu.fbansept.kempo.security.IsGestionnaire;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +20,16 @@ public class UtilisateurControlleur {
     @Autowired
     private UtilisateurDao utilisateurDao;
 
+    
     @GetMapping("/utilisateur/liste")
+    @IsGestionnaire
     public List<Utilisateur> getAll() {
 
         return utilisateurDao.findAll();
     }
 
     @GetMapping("/utilisateur/{id}")
+    @IsGestionnaire
     public ResponseEntity<Utilisateur> getUtilisateurById(@PathVariable int id) {
         Optional<Utilisateur> optionalUtilisateur = utilisateurDao.findById(id);
 
@@ -36,14 +42,18 @@ public class UtilisateurControlleur {
     }
 
     @PostMapping("/utilisateur")
-    public ResponseEntity<Utilisateur> addUtilisateur(@RequestBody Utilisateur utilisateur) {
+    @IsAdmin
+    public ResponseEntity<Utilisateur> addUtilisateur(
+            @RequestBody @Valid Utilisateur utilisateur) {
         utilisateurDao.save(utilisateur);
 
         return new ResponseEntity<>(utilisateur, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/utilisateur/{id}")
-    public ResponseEntity<Utilisateur> deleteUtilisateur(@PathVariable int id) {
+    @IsAdmin
+    public ResponseEntity<Utilisateur> deleteUtilisateur(
+            @PathVariable int id) {
 
         Optional<Utilisateur> optionalUtilisateur = utilisateurDao.findById(id);
 
@@ -61,7 +71,7 @@ public class UtilisateurControlleur {
     @PutMapping("/utilisateur/{id}")
     public ResponseEntity<Utilisateur> updateUtilisateur(
             @PathVariable int id,
-            @RequestBody Utilisateur utilisateur) {
+            @RequestBody @Valid Utilisateur utilisateur) {
 
         utilisateur.setId(id);
 
