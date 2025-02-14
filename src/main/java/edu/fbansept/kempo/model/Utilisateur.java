@@ -24,9 +24,9 @@ public class Utilisateur {
 
     @Column(nullable = false)
     @NotBlank
-    @Size(min = 4, max = 50 )
+    //@Size(min = 4, max = 50 )
     private String password;
-    
+
     @ManyToOne(optional = false)
     private Droit droit;
 

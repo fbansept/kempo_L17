@@ -1,6 +1,7 @@
 package edu.fbansept.kempo.controller;
 
 import edu.fbansept.kempo.dao.UtilisateurDao;
+import edu.fbansept.kempo.model.Droit;
 import edu.fbansept.kempo.model.Utilisateur;
 import edu.fbansept.kempo.security.AppUserDetails;
 import edu.fbansept.kempo.security.IsAdmin;
@@ -46,11 +47,16 @@ public class ConnexionController {
         //On hash le mot de passe du client
         utilisateur.setPassword(encoder.encode(utilisateur.getPassword()));
 
+        Droit droitCompetiteur = new Droit();
+        droitCompetiteur.setId(3);
+
+        utilisateur.setDroit(droitCompetiteur);
+
         utilisateurDao.save(utilisateur);
 
         return new ResponseEntity<>(utilisateur, HttpStatus.CREATED);
     }
-    
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Utilisateur utilisateur) {
 
